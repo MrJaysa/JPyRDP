@@ -11,9 +11,10 @@ from Main.Components         import User, User_null, Ui_Loader
 from Main.SocketProcess     import SocketProcess
 
 class Ui(QMainWindow):
-    def __init__(self):
+    def __init__(self, app):
         super(Ui, self).__init__()
         loadUi('Main/Ui/main.ui', self)
+        self.screensize = app.primaryScreen().size()
         # loader class
         self.loader_modal = Ui_Loader(self)
         # socket class
@@ -164,7 +165,8 @@ class Ui(QMainWindow):
 
     @pyqtSlot(dict)
     def load_image(self, img):
-        self.rdp_img.setPixmap(img['image'])
+        img = img['image'].scaled(self.screensize.width(), self.screensize.height(), Qt.KeepAspectRatio)
+        self.rdp_img.setPixmap(img)
         
     def alertBox(self, alert, title, color, msg, size=2, func=None):
         if func:
