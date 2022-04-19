@@ -4,6 +4,6 @@ from Main import Ui
 
 if __name__ == '__main__':
     app=QApplication(argv)
-    window = Ui()
-    window.showMaximized()
+    window = Ui(app)
+    window.showFullScreen()
     app.exec_()
