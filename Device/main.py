@@ -7,5 +7,5 @@ if __name__ == '__main__':
     window = Ui()
     # window.setFixedWidth(app.primaryScreen().availableSize().width())
     # window.setFixedHeight(app.primaryScreen().availableSize().height())
-    window.show()
+    window.showMaximized()
     app.exec_()
