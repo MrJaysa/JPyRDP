@@ -120,13 +120,14 @@ def connect_users(payload):
 
 # connection established confirmed by desktop
 @socket.on('trigger_desktop')
-def trigger_desktop(user):
+def trigger_desktop(payload):
     client = users.get_devices_by_sid(request.sid)
-    dev_client = users.get_devices_by_rid(user)
+    dev_client = users.get_devices_by_rid(payload.get('user'))
     emit('establish_connection', {
         "status": 200,
         "msg": f"Connection established to user with rid: {client.rid}",
-        "user": client.rid
+        "user": client.rid,
+        "dimension": payload.get('dimension')
     }, room=dev_client.sid)
 
 @socket.on('streamer')
