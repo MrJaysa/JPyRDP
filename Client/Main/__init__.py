@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets          import QMainWindow, QMessageBox
+from PyQt5.QtWidgets          import QMainWindow, QMessageBox, QLabel
 from PyQt5.uic                import loadUi
 # from PyQt5.QtGui     import QPixmap
 from PyQt5.QtCore    import QObject, pyqtSlot, pyqtSignal, Qt, QThread
@@ -7,7 +7,7 @@ from os.path         import abspath, join, dirname
 from base64          import b64encode
 from validators      import url as url_validator
 
-from Main.Components         import User, User_null, Ui_Loader
+from Main.Components         import User, User_null, Ui_Loader, MouseTracker
 from Main.SocketProcess     import SocketProcess
 
 class Ui(QMainWindow):
@@ -17,8 +17,10 @@ class Ui(QMainWindow):
         self.screensize = app.primaryScreen().size()
         # loader class
         self.loader_modal = Ui_Loader(self)
+        
         # socket class
         self.socket_client = SocketProcess(self)
+
         # second screen items
         self.await_user = User_null(self)
         self.user_available = User(self)
@@ -31,9 +33,11 @@ class Ui(QMainWindow):
         self.views.setCurrentIndex(0)
         self.system_events()
         self.hide_elements()
-
-
-
+        
+        self.rdp_img = QLabel(self)
+        self.rdp_img.setVisible(False)
+        self.rdp_img.setStyleSheet('margin: 0;')
+        
 
         # self.setAttribute(Qt.WA_TranslucentBackground)
         self.setWindowFlags( Qt.WindowCloseButtonHint)
@@ -58,12 +62,18 @@ class Ui(QMainWindow):
         self.user_available.dev_pwd.setEnabled(param)
         self.user_available.connect_client.setEnabled(param)
 
-    
     def user_connect(self):
         if self.user_available.dev_id.text() and self.user_available.dev_pwd.text():
             self.toggle_user_component_input(False)
             self.loader_modal.show()
-            self.socket_client.connect_users(self.user_available.dev_id.text(), self.user_available.dev_pwd.text())
+            self.socket_client.connect_users(
+                self.user_available.dev_id.text(), 
+                self.user_available.dev_pwd.text(),
+                {
+                    'width':self.screensize.width(),
+                    'height':self.screensize.height()
+                }
+            )
         else:
             self.user_available.user_alert.setText('Please fill the form fields provided.')
             self.user_available.user_alert.setVisible(True)
@@ -75,7 +85,6 @@ class Ui(QMainWindow):
     def input_edited(self):
         if self.main_flash.isVisible():
             self.main_flash.setVisible(False)
-
 
     def start_stream(self):
         if self.uid.text() and self.url.text():
@@ -122,7 +131,6 @@ class Ui(QMainWindow):
             self.user_available.toggle_visibility(False)
             self.await_user.toggle_visibility(True)
             
-    
     @pyqtSlot(str)
     def stream_error(self, err):
         self.loader_modal.close()
@@ -163,6 +171,14 @@ class Ui(QMainWindow):
         self.await_user.toggle_visibility(False)
         self.user_available.toggle_visibility(False)
 
+        self.rdp_img.setVisible(True)
+        self.image_layout.addWidget(self.rdp_img)
+        self.tracker = MouseTracker(self.rdp_img)
+        self.tracker.mousePosition.connect(self.on_positionChanged)
+        self.tracker.mouseScroll.connect(self.on_scroll)
+        self.tracker.mouseClick.connect(self.on_click)
+        self.tracker.mouseRelease.connect(self.on_release)
+
     @pyqtSlot(dict)
     def load_image(self, img):
         img = img['image'].scaled(self.screensize.width(), self.screensize.height(), Qt.KeepAspectRatio)
@@ -194,3 +210,21 @@ class Ui(QMainWindow):
         if self.socket_client.isRunning():
             self.socket_client.terminate()
         print("closed")
+
+    @pyqtSlot(int, int)
+    def on_positionChanged(self, x, y):
+        print(x, y)
+
+    @pyqtSlot(int, int)
+    def on_scroll(self, x, y):
+        print(x, y)
+
+    @pyqtSlot(int)
+    def on_click(self, btn):
+        print(btn)
+
+    @pyqtSlot(int)
+    def on_release(self, btn):
+        print('middle' if btn == 4 else 'm')
+        print(btn)
+   

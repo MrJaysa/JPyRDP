@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>661</width>
-    <height>644</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -24,6 +24,9 @@
     <width>0</width>
     <height>0</height>
    </size>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
   </property>
   <property name="windowTitle">
    <string>RDP_CLIENT</string>
@@ -441,7 +444,13 @@ font-weight: 900;
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="tabletTracking">
+        <bool>false</bool>
+       </property>
+       <layout class="QVBoxLayout" name="image_layout">
         <property name="spacing">
          <number>0</number>
         </property>
@@ -460,26 +469,6 @@ font-weight: 900;
         <property name="bottomMargin">
          <number>0</number>
         </property>
-        <item>
-         <widget class="QLabel" name="rdp_img">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background: black;
-margin: 0</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </widget>

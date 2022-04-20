@@ -64,6 +64,7 @@ class SocketProcess(QThread):
             def receive_custom(msg):
                 if msg.get('status') == 200:
                     self.client_user = msg.get('user')
+                    self.client_dimension = msg.get('dimension')
                     self.stream_connect.emit(msg.get('msg'))
                     self.start_streaming()
 

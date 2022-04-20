@@ -34,7 +34,7 @@ class SocketProcess(QThread):
                 pass
                 # self.
 
-            @self.sio.on('disconnect')
+            @self.sio.on('disconnect')trigger_desktop
             def on_disconnect():
                 self.stream_disconnect.emit()
 
@@ -51,7 +51,10 @@ class SocketProcess(QThread):
                 if msg.get('status') == 200:
                     self.desktop_user = msg.get('user')
                     self.stream_connect.emit(msg.get('msg'))
-                    self.sio.emit('trigger_desktop', self.desktop_user)
+                    self.sio.emit('trigger_desktop', {
+                        "user": self.desktop_user
+                        "dimension": self.dimension
+                    })
 
                 else:
                     self.stream_connect_user.emit(msg.get('msg'))
@@ -69,8 +72,21 @@ class SocketProcess(QThread):
         self.url = url
         self.uid = uid
 
-    def connect_users(self, rid, pwd):
+    def connect_users(self, rid, pwd, dimensions):
+        self.dimension = dimensions
         self.sio.emit('connect_users', {
             'id':  rid,
             'pwd': pwd
         })
+
+    def on_positionChanged(self, data):
+        pass
+
+    def on_scroll(self, data):
+        pass
+
+    def on_click(self, data):
+        pass
+
+    def on_release(self, data):
+        pass
