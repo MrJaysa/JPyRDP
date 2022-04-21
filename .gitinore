@@ -1,4 +1,8 @@
 **/__pycache__
 ./Client/**/__pycache__
+./Client/**/**/__pycache__
+./Client/**/**/**/__pycache__
 ./Device/**/__pycache__
+./Device/**/**/__pycache__
+./Device/**/**/**/__pycache__
 ./Server/**/__pycache__
