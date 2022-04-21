@@ -34,7 +34,7 @@ class SocketProcess(QThread):
                 pass
                 # self.
 
-            @self.sio.on('disconnect')trigger_desktop
+            @self.sio.on('disconnect')
             def on_disconnect():
                 self.stream_disconnect.emit()
 
@@ -52,7 +52,7 @@ class SocketProcess(QThread):
                     self.desktop_user = msg.get('user')
                     self.stream_connect.emit(msg.get('msg'))
                     self.sio.emit('trigger_desktop', {
-                        "user": self.desktop_user
+                        "user": self.desktop_user,
                         "dimension": self.dimension
                     })
 
@@ -79,14 +79,19 @@ class SocketProcess(QThread):
             'pwd': pwd
         })
 
-    def on_positionChanged(self, data):
-        pass
+    @pyqtSlot(int, int)
+    def on_positionChanged(self, x, y):
+        print(x, y)
 
-    def on_scroll(self, data):
-        pass
+    @pyqtSlot(int, int)
+    def on_scroll(self, x, y):
+        print(x, y)
 
-    def on_click(self, data):
-        pass
+    @pyqtSlot(int)
+    def on_click(self, btn):
+        print(btn)
 
-    def on_release(self, data):
-        pass
+    @pyqtSlot(int)
+    def on_release(self, btn):
+        print('middle' if btn == 4 else 'm')
+        print(btn)

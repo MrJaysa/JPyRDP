@@ -7,7 +7,7 @@ class Start_Server(Process):
         super(Start_Server, self).__init__()
 
     def run(self):
-        socketio.run(app, host='0.0.0.0', port=5000)
+        socketio.run(app, host='0.0.0.0', port=5000, debug=False)
 
 class Server_Thread(QThread, Process):
     def __init__(self, port, parent=None):

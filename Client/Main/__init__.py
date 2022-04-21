@@ -174,10 +174,10 @@ class Ui(QMainWindow):
         self.rdp_img.setVisible(True)
         self.image_layout.addWidget(self.rdp_img)
         self.tracker = MouseTracker(self.rdp_img)
-        self.tracker.mousePosition.connect(self.on_positionChanged)
-        self.tracker.mouseScroll.connect(self.on_scroll)
-        self.tracker.mouseClick.connect(self.on_click)
-        self.tracker.mouseRelease.connect(self.on_release)
+        self.tracker.mousePosition.connect(self.socket_client.on_positionChanged)
+        self.tracker.mouseScroll.connect(self.socket_client.on_scroll)
+        self.tracker.mouseClick.connect(self.socket_client.on_click)
+        self.tracker.mouseRelease.connect(self.socket_client.on_release)
 
     @pyqtSlot(dict)
     def load_image(self, img):
@@ -211,20 +211,5 @@ class Ui(QMainWindow):
             self.socket_client.terminate()
         print("closed")
 
-    @pyqtSlot(int, int)
-    def on_positionChanged(self, x, y):
-        print(x, y)
-
-    @pyqtSlot(int, int)
-    def on_scroll(self, x, y):
-        print(x, y)
-
-    @pyqtSlot(int)
-    def on_click(self, btn):
-        print(btn)
-
-    @pyqtSlot(int)
-    def on_release(self, btn):
-        print('middle' if btn == 4 else 'm')
-        print(btn)
+    
    

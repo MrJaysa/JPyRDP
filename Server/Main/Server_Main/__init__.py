@@ -14,6 +14,7 @@ from .file_handler      import Details_Handler
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] =  uuid4().hex + token_hex(32)
+app.config['DEBUG'] = False
 cors = CORS(app)
 Payload.max_decode_packets = 500
 socket = SocketIO(app, async_mode='gevent', engineio_logger=False)
