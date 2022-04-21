@@ -91,7 +91,6 @@ class SocketProcess(QThread):
                 }
             }
         })
-        print(x, y)
 
     @pyqtSlot(int, int)
     def on_scroll(self, x, y):
@@ -108,7 +107,6 @@ class SocketProcess(QThread):
 
     @pyqtSlot(int)
     def on_click(self, btn):
-        print(btn)
         self.sio.emit('received_signal', {
             "user": self.desktop_user,
             "action": {
@@ -123,7 +121,6 @@ class SocketProcess(QThread):
 
     @pyqtSlot(int)
     def on_release(self, btn):
-        # print('middle' if btn == 4 else 'm')
         self.sio.emit('received_signal', {
             "user": self.desktop_user,
             "action": {

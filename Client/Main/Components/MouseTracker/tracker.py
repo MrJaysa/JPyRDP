@@ -28,6 +28,6 @@ class MouseTracker(QObject):
                 self.mouseRelease.emit(event.button())
 
             if event.type() == QEvent.Wheel:
-                self.mouseScroll.emit(event.pos().x(), event.pos().y())
+                self.mouseScroll.emit(event.angleDelta().x(), event.pos().y())
 
         return super().eventFilter(obj, event)
