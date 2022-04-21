@@ -81,17 +81,57 @@ class SocketProcess(QThread):
 
     @pyqtSlot(int, int)
     def on_positionChanged(self, x, y):
+        self.sio.emit('received_signal', {
+            "user": self.desktop_user,
+            "action": {
+                "type": "move",
+                "dim": {
+                    "x": x,
+                    "y": y
+                }
+            }
+        })
         print(x, y)
 
     @pyqtSlot(int, int)
     def on_scroll(self, x, y):
-        print(x, y)
+        self.sio.emit('received_signal', {
+            "user": self.desktop_user,
+            "action": {
+                "type": "scroll",
+                "dim": {
+                    "x": x,
+                    "y": y
+                }
+            }
+        })
 
     @pyqtSlot(int)
     def on_click(self, btn):
         print(btn)
+        self.sio.emit('received_signal', {
+            "user": self.desktop_user,
+            "action": {
+                "type": "click",
+                "dim": {
+                    'right': True if btn == 2 else False,
+                    'left': True if btn == 1 else False,
+                    'middle': True if btn == 4 else False,
+                }
+            }
+        })
 
     @pyqtSlot(int)
     def on_release(self, btn):
-        print('middle' if btn == 4 else 'm')
-        print(btn)
+        # print('middle' if btn == 4 else 'm')
+        self.sio.emit('received_signal', {
+            "user": self.desktop_user,
+            "action": {
+                "type": "release",
+                "dim": {
+                    'right': True if btn == 2 else False,
+                    'left': True if btn == 1 else False,
+                    'middle': True if btn == 4 else False,
+                }
+            }
+        })
