@@ -32,6 +32,9 @@ class SocketProcess(QThread):
         QThread.__init__(self, parent)
         
     def run(self):
+        # from pyautogui import move, click, press, moveTo, hotkey, FAILSAFE#
+        import pyautogui
+        pyautogui.FAILSAFE = False
         try:
             self.sio = Client()
 
@@ -67,6 +70,14 @@ class SocketProcess(QThread):
                     self.client_dimension = msg.get('dimension')
                     self.stream_connect.emit(msg.get('msg'))
                     self.start_streaming()
+
+            @self.sio.on('control_signal')
+            def control_signals(data):
+                if data.get("type") == "move":
+                    pyautogui.moveTo(data['dim']['x'], data['dim']['y'])
+                
+                else:
+                    print(data)
 
             
             self.sio.connect(self.url)
