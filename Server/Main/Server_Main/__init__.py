@@ -143,11 +143,9 @@ def streamer(payload):
         }, room=request.sid)
 
 @socket.on('received_signal')
-def received_signal(data):
+def received_signal(payload):
     dev_client = users.get_devices_by_rid(payload.get('user'))
-    emit('control_signal', {
-        
-    }, room=dev_client.sid)
+    emit('control_signal', payload.get('action'), room=dev_client.sid)
 
 @app.errorhandler(Exception)
 def error(err):
