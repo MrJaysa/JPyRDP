@@ -11,6 +11,6 @@ This is an RDP application using python.
 3. Send mouse details to desktop
 4. Send keyboard details to desktop
 
-# Notes
+# Personal Notes
 
 * Add the parent through inheritance into child so as to reduce codes and trigger parts of codes from one another via parent in different child. allowing them to have control of their scope properly instead of dragging everything to parent class.
